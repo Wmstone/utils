@@ -53,4 +53,40 @@ data.map((item)=>{
 })
 console.log(res)
 
-// 3. 
+// 3. 使用sessionStorage 保存用户信息，localStorage 同理
+  export function getUser(str) {
+    const userString = typeof str === 'undefined' ? sessionStorage.getItem('user') : str;
+    return userString || [];
+  }
+  
+  // 保存用户信息
+  export function setUser(data) {
+    return sessionStorage.setItem('user', data);
+  }
+
+// 4. 使用cookie 保存token和读取cookie
+// 读取cookies
+export function getCookie(name) {
+    let cookieValue = '';
+    if (document.cookie && document.cookie !== '') {
+      let cookies = document.cookie.split(';');
+      cookies.map(item => {
+        let cookie = item.trim();
+        if (cookie.substring(0, name.length + 1) === name + '=') {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          cookieValue = JSON.parse(cookieValue);
+        }
+      });
+    }
+    return cookieValue || [];
+  }
+  
+  // 保存cookie
+  export function setCookie(name, value) {
+    let valueStr = JSON.stringify(value);
+    //name 用户名 value 用户ID
+    var Minute = 480; //此 cookie 将被保存8小时
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Minute * 60 * 1000);
+    document.cookie = name + '=' + valueStr + ';path=' + '/' + ';expires=' + exp.toGMTString();
+  }
