@@ -34,10 +34,10 @@ let data = [
     }
 ]
 // 示例，将年龄一致的整合成一个对象，得到结果
-dataNew = [
-    {name : ['zhangsan','wangwu'],age : 16},
-    {name : ['lisi'],age : 15}
-]
+// dataNew = [
+//     {name : ['zhangsan','wangwu'],age : 16},
+//     {name : ['lisi'],age : 15}
+// ]
 
 // 代码
 let hash = {}
@@ -52,3 +52,5 @@ data.map((item)=>{
     }))
 })
 console.log(res)
+
+// 3. 
