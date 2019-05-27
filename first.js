@@ -90,3 +90,69 @@ export function getCookie(name) {
     exp.setTime(exp.getTime() + Minute * 60 * 1000);
     document.cookie = name + '=' + valueStr + ';path=' + '/' + ';expires=' + exp.toGMTString();
   }
+
+// 利用Mentions 组件实现简单sql自动补全，主要是受控组件的应用
+import { Mentions } from 'antd'
+const MOCK_DATA = {
+  'a': ['ADD', 'ALERT'],
+  'c': ['CREATE'],
+  's':['SELECT'],
+  'i':['INSERT'],
+  'u':['UPDATE']
+};
+class HelloWorld extends React.Component{
+
+  state = {
+    value :'',
+    prefix:'a'
+  }
+
+  onSearch = (_, prefix) =>{
+    this.setState({prefix})
+  }
+
+ onChange=(e)=>{
+   this.setState({value:e})
+  }
+
+onSelect = (option,prefix)=>{
+  setTimeout(()=>{
+    let newValue = this.state.value.split(',');
+    let data = [];
+    newValue.map((item,index)=>{
+      if(index === newValue.length-2){
+        data.push(item.substring(prefix.length,item.length))
+      }else{
+        data.push(item)
+      }
+    })
+    this.setState({value:data.join(' ')})
+  },1)
+}
+
+
+render () {
+  const {value, prefix} = this.state;
+  return (
+    <Mentions
+     prefix={['a','u','i','s']}
+     onSelect={this.onSelect}
+     onChange={this.onChange}
+     value = {value}
+     onSearch={this.onSearch}
+     split = ','
+   >
+    {
+      (MOCK_DATA[prefix]|| []).map(value => (
+        <Option key={value} value={value}>
+          {value}
+        </Option>
+      ))
+    }
+   </Mentions>
+  )
+
+}
+}
+
+export default HelloWorld;
